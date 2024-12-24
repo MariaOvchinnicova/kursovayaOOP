@@ -2,13 +2,13 @@ from telebot import TeleBot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from backend import Shedule
 
-# Создаем объект бота
+
 bot = TeleBot("7865483487:AAFX5_VNkQF6ncEdV9CHBGeebLkT3zoCcmA")
 
-# Создаем объект расписания
+
 schedule = Shedule()
 
-# Функция для создания главной клавиатуры
+
 def create_main_buttons():
     keyboard = InlineKeyboardMarkup()
     keyboard.add(InlineKeyboardButton("Ближайшее занятие", callback_data="near_lesson"))
@@ -17,7 +17,7 @@ def create_main_buttons():
     keyboard.add(InlineKeyboardButton("Расписание всей недели", callback_data="all_week"))
     return keyboard
 
-# Функция для создания кнопок с днями недели
+
 def create_day_buttons():
     keyboard = InlineKeyboardMarkup()
     days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
@@ -26,7 +26,7 @@ def create_day_buttons():
     keyboard.add(InlineKeyboardButton("⬅️ Назад", callback_data="main_menu"))
     return keyboard
 
-# Обработка команды /start
+
 @bot.message_handler(commands=['start', 'help'])
 def handle_start(message):
     bot.send_message(
@@ -34,7 +34,7 @@ def handle_start(message):
         "Привет! Я помогу тебе получить расписание. Введите номер группы.",
     )
 
-# Обработка текстовых сообщений для ввода номера группы
+
 @bot.message_handler(content_types=['text'])
 def handle_group_input(message):
     group_number = message.text.strip()
@@ -49,7 +49,7 @@ def handle_group_input(message):
     else:
         bot.send_message(message.chat.id, "Такой группы не существует! Попробуйте снова.")
 
-# Обработка нажатия кнопок
+
 @bot.callback_query_handler(func=lambda call: True)
 def handle_buttons(call):
     try:
@@ -121,5 +121,5 @@ def handle_buttons(call):
             parse_mode="HTML"
         )
 
-# Запуск бота
+
 bot.polling(none_stop=True)
